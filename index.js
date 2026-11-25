@@ -113,6 +113,40 @@ app.get('/canciones', async (req, res) => {
   }
 });
 
+app.delete('/artistas/:id', async (req, res) => {
+  try {
+    const eliminado = await Artista.findByIdAndDelete(req.params.id);
+
+    if (!eliminado) {
+      return res.status(404).json({ mensaje: 'Artista no encontrado' });
+    }
+
+    res.status(200).json({
+      mensaje: 'Artista eliminado exitosamente',
+      artista: eliminado
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.delete('/canciones/:id', async (req, res) => {
+  try {
+    const eliminada = await Cancion.findByIdAndDelete(req.params.id);
+
+    if (!eliminada) {
+      return res.status(404).json({ mensaje: 'Canción no encontrada' });
+    }
+
+    res.status(200).json({
+      mensaje: 'Canción eliminada exitosamente',
+      cancion: eliminada
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
