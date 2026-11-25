@@ -1,10 +1,14 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+// Interfaz web (estilo Spotify)
+app.use(express.static(path.join(__dirname, 'public')));
 
 const MONGO_URI =
   process.env.MONGODB_URI ||
@@ -67,7 +71,7 @@ const cancionSchema = new mongoose.Schema({
 const Cancion = mongoose.model('Cancion', cancionSchema, 'canciones');
 
 // Rutas
-app.get('/', (req, res) => {
+app.get('/estado', (req, res) => {
   res.send('API Spotify funcionando');
 });
 
